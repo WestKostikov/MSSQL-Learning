@@ -60,4 +60,34 @@ Repeat the query from step 2, but use the replace function for calculations.
 select trim(replace(last_name, '[wrong]', '')) last_name
 from skill_customers where charindex('[wrong]', last_name)>0
 
+MODULE 5. SELECT - Working with date and time
+
+Task 1. Using the SELECT statement for a database, query the server's current time in two ways:
+- using the CURRENT_TIMESTAMP function: 
+select CURRENT_TIMESTAMP current_datatime
+- using the getdate() function: 
+select GETDATE() current_datatime
+
+Task 2. 
+Write a query that uses the CAST function to extract a date from the result of the CURRENT_TIMESTAMP function.
+select CAST(CURRENT_TIMESTAMP as Date) _date
+Write a query that uses the CAST function to extract time from the result of the CURRENT_TIMESTAMP function.
+select CAST(CURRENT_TIMESTAMP as Time) _time
+Write a query that uses the CONVERT function to extract a date from the result of the CURRENT_TIMESTAMP function.
+select CONVERT(date, CURRENT_TIMESTAMP) _date
+Write a query that uses the CONVERT function to extract time from the result of the CURRENT_TIMESTAMP function.
+select CONVERT(time, CURRENT_TIMESTAMP) _time
+Write a query on the skill_managers table that retrieves the following columns:
+
+Column number	Column name	Value
+1	last_transaction_dt	last_transaction_dt value as it is in the table
+2	last_transaction_date	date extracted from the last_transaction_dt field using the CAST function
+3	last_transaction_time	time extracted from the last_transaction_dt field using the CONVERT function
+select last_transaction_dt, 
+CAST(CURRENT_TIMESTAMP AS Date) last_transaction_date, 
+CONVERT(time, CURRENT_TIMESTAMP) last_transaction_time
+from skill_managers
+
+Task 3. 
+
 

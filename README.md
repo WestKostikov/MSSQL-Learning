@@ -89,5 +89,53 @@ CONVERT(time, CURRENT_TIMESTAMP) last_transaction_time
 from skill_managers
 
 Task 3. 
+Write a query using the FORMAT function that converts the result of the CURRENT_TIMESTAMP function to a string containing a date in the YYYY-DD-MM format. Date appearance example: 2005-08-09.
+select FORMAT(CURRENT_TIMESTAMP, 'yyyy-dd-MM') formated
+Write a query using the FORMAT function that converts the result of executing the CURRENT_TIMESTAMP function into a string containing the time in the hh:mm:ss format. An example of the appearance of time: 18:31:42.
+select FORMAT(CURRENT_TIMESTAMP, 'hh:mm:ss') formated
+Write a query on the skill_managers table that retrieves the following columns:
 
+Column number	Column name	Value
+1	last_transaction_dt	last_transaction_dt value as it is in the table
+2	last_transaction_date	the value of the last_transaction_dt field, formatted by the FORMAT function as YYYY-DD-MM
+3	last_transaction_time	the value of the last_transaction_dt field formatted by the FORMAT function as hh:mm:ss
 
+select last_transaction_dt last_transaction_dt, 
+FORMAT(CURRENT_TIMESTAMP, 'yyyy-dd-MM') last_transaction_date, 
+FORMAT(CURRENT_TIMESTAMP, 'hh:mm:ss') last_transaction_time
+from skill_managers 
+
+Task 4. 
+Write a query using the YEAR function that extracts the year from the result of the CURRENT_TIMESTAMP function in number format.
+select year(current_timestamp) year
+Write a query using the MONTH function that extracts the month from the result of the CURRENT_TIMESTAMP function in number format.
+select month(current_timestamp) month
+Write a query using the DAY function that extracts a day from the result of the CURRENT_TIMESTAMP function in number format.
+select day(current_timestamp) day
+Write a query using the DATEPART function that extracts an hour from the result of the CURRENT_TIMESTAMP function in number format.
+select datepart(hour, current_timestamp) hour
+Write a query using the DATEPART function that extracts minutes from the result of the CURRENT_TIMESTAMP function in number format.
+select datepart(minute, current_timestamp) minute
+
+Task 5. 
+
+Getting a list of managers, consisting of the following columns:
+Manager's name.
+Last name of the manager.
+Manager's year of birth (name the column year_of_born).
+
+Include in the sample managers who had the last transaction at 22:00 or later.
+select first_name, last_name, 
+datepart(year, birth_date) year_of_born
+from skill_managers 
+where datepart(hour, last_transaction_dt)>=22
+
+Getting a list of managers, consisting of the following columns:
+Manager's name.
+Last name of the manager.
+The date of the last transaction in the form: day in the format 1-31 (without the first zero) and the English name of the month separated by a space, name the column dt.
+Include managers who were born in the summer in the sample, and sort the entire list by last name (in ascending order).
+select first_name, last_name, 
+FORMAT(last_transaction_dt, 'd MMMM') dt
+from skill_managers 
+where month(birth_date) in (6,7,8) order by last_name

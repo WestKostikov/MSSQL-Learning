@@ -139,3 +139,74 @@ select first_name, last_name,
 FORMAT(last_transaction_dt, 'd MMMM') dt
 from skill_managers 
 where month(birth_date) in (6,7,8) order by last_name
+
+MODULE 6. SELECT - Working with date and time (Part 2)
+
+Task 1. 
+Table rows in which the manager's birthday (birth_date column) matches November 25, 1989.
+select * from skill_managers where birth_date='1989-11-25' 
+Table rows in which the manager's birthday (birth_date column) corresponds to November 25, 1989 or July 14, 1997.
+select * from skill_managers where birth_date='1989-11-25' or birth_date='1997-07-14'
+Table rows whose last transaction date (last_transaction_dt column) matches the timestamp 2020-03-10 15:07:11 or 2020-05-11 17:28:26.
+select * from skill_managers 
+where last_transaction_dt='2020-03-10 15:07:11' 
+or last_transaction_dt='2020-05-11 17:28:26'
+Table rows whose last transaction (column last_transaction_dt) was made on September 1, 2020.
+select * from skill_managers 
+where cast(last_transaction_dt as Date) = '2020-09-01'Table rows whose last transaction (column last_transaction_dt) was made at 16:54:30.
+select * from skill_managers 
+where cast(last_transaction_dt as Time) = '16:54:30'
+
+Task 2. 
+Table rows in which the manager's birthday (birth_date column) is greater than or equal to 1989-11-25.
+select * from skill_managers 
+where birth_date>='1989-11-25'
+Table rows in which the manager's birthday (birth_date column) is between two dates: 1989-11-25 and 1997-07-14. Range boundaries must be included in the sample.
+select * from skill_managers 
+where birth_date>='1989-11-25'
+and birth_date<='1997-07-14'
+Table rows whose last transaction dates (last_transaction_dt column) start with the timestamp 2020-03-10 15:07:11.
+select * from skill_managers 
+where last_transaction_dt>='2020-03-10 15:07:11'
+Table rows whose last transaction date (last_transaction_dt column) falls within the range between timestamps 2020-03-10 15:07:11 and 2020-05-11 17:28:26. Range boundaries must be included in the sample.
+select * from skill_managers 
+where last_transaction_dt>='2020-03-10 15:07:11'
+and last_transaction_dt<='2020-05-11 17:28:26'
+Table rows whose last transaction (column last_transaction_dt) falls between March 10, 2020 and May 11, 2020. Transactions that fall within the days that the range is specified must be included in the selection.
+select * from skill_managers 
+where CAST(last_transaction_dt as Date)>='2020-03-10'
+and CAST(last_transaction_dt as Date)<='2020-05-11'
+
+Task 3. Compile and execute three SQL queries to the skill_operation table, requesting rows according to certain selection conditions by the date specified in three columns: year - year, month - month, day - day.
+
+All lines from 2020-08-20. Conditions must be specified for each column (year, month, day) separately.
+select * from skill_operation where year=2020 and month=08 and day=20
+All rows whose date (consisting of the year, month, day column values) matches the number 2020-08-20.
+select * from skill_operation 
+where DATEFROMPARTS(year, month, day)='2020-08-20' 
+All rows whose date (consisting of the year, month, day column values) falls between 2020-08-20 and 2020-08-26. Range boundaries should not be included in the sample.
+select * from skill_operation 
+where DATEFROMPARTS(year, month, day)>'2020-08-20' 
+and DATEFROMPARTS(year, month, day)<'2020-08-26'
+In paragraphs 2 and 3 in Microsoft SQL Server, the conditions must be specified using the DATEFROMPARTS function
+
+Task 4.Compose and execute two SQL queries of the following form:
+select * from skill_events where CAST(expression as date)='2020-08-20'
+The expression must use the dt_bad_string column and functions:
+Only the replace function.
+select * from skill_events where 
+cast(
+replace(replace(replace(dt_bad_string,' year ','-'),' month ','-'),' day','')
+as date)='2020-08-20'
+Microsoft SQL Server: concat function that uses substring functions and others (if needed).
+select * from skill_events where 
+cast(
+concat(
+substring(dt_bad_string,1,4),
+'-',
+substring(dt_bad_string,11,2),
+'-',
+substring(dt_bad_string,19,2)
+)
+as date)='2020-08-20'
+
